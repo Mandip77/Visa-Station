@@ -16,20 +16,27 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Using latest Ubuntu runner
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
+      - name: Install Ruby
+        run: |
+          sudo apt update
+          sudo apt install -y ruby-full build-essential zlib1g-dev
+          echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+          echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+          source ~/.bashrc
+
+      - name: Install Bundler & Jekyll
+        run: |
+          gem install bundler
+          gem install jekyll
 
       - name: Install Dependencies
-        run: |
-          gem install bundler jekyll
-          bundle install || bundle update
+        run: bundle install || bundle update
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
