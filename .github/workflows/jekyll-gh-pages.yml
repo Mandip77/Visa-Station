@@ -32,8 +32,8 @@ jobs:
 
       - name: Install Bundler & Jekyll
         run: |
-          gem install bundler
-          gem install jekyll
+          gem install --user-install bundler
+          gem install --user-install jekyll
 
       - name: Install Dependencies
         run: bundle install || bundle update
