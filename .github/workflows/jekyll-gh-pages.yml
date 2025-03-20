@@ -18,22 +18,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'  # Specify the Ruby version you need
+          ruby-version: '3.1'  # Ensure a supported Ruby version
 
-      - name: Install Bundler
-        run: gem install bundler
+      - name: Install Bundler & Jekyll
+        run: |
+          gem install bundler
+          gem install jekyll
 
       - name: Install Dependencies
-        run: bundle install || bundle update
+        run: |
+          bundle install || bundle update
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Build with Jekyll
         run: jekyll build --destination ./_site
