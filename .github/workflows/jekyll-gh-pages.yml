@@ -16,27 +16,25 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Using latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Ruby
+      - name: Install Ruby & Bundler
         run: |
           sudo apt update
           sudo apt install -y ruby-full build-essential zlib1g-dev
           echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
           echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
           source ~/.bashrc
+          gem install bundler
 
-      - name: Install Bundler & Jekyll
+      - name: Install Jekyll Dependencies
         run: |
-          gem install --user-install bundler
-          gem install --user-install jekyll
-
-      - name: Install Dependencies
-        run: bundle install || bundle update
+          export PATH="$HOME/gems/bin:$PATH"
+          bundle install
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -45,7 +43,9 @@ jobs:
         run: touch .nojekyll
 
       - name: Build with Jekyll
-        run: JEKYLL_ENV=production jekyll build --trace --destination ./_site
+        run: |
+          export PATH="$HOME/gems/bin:$PATH"
+          JEKYLL_ENV=production bundle exec jekyll build --trace --destination ./_site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
