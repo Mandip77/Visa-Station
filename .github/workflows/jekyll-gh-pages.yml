@@ -24,22 +24,21 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'  # Ensure a supported Ruby version
-
-      - name: Install Bundler & Jekyll
-        run: |
-          gem install bundler
-          gem install jekyll
+          ruby-version: '3.1'
 
       - name: Install Dependencies
         run: |
+          gem install bundler jekyll
           bundle install || bundle update
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Disable Jekyll Processing for Static Files
+        run: touch .nojekyll
+
       - name: Build with Jekyll
-        run: jekyll build --destination ./_site
+        run: JEKYLL_ENV=production jekyll build --trace --destination ./_site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

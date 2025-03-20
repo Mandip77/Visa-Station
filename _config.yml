@@ -1,10 +1,12 @@
 theme: minima
 title: Visa Station
 description: A Jekyll theme for your blog.
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+
 exclude:
   - node_modules
   - vendor
@@ -15,8 +17,18 @@ exclude:
   - .gitignore
   - README.md
   - LICENSE
-include:
-  - assets
-  - styles.css
-  - main.js
 
+include:
+  - _layouts
+  - _includes
+  - _posts
+  - assets
+  - assets/css
+  - assets/js
+  - _config.yml
+  - .nojekyll
+
+keep_files:
+  - assets
+  - assets/css
+  - assets/js
